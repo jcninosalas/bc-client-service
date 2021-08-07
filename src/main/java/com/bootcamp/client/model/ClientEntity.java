@@ -22,15 +22,8 @@ public class ClientEntity
     @Id
     private String _id;
 
-    @Nullable
     private String firstName;
-    @Nullable
     private String lastName;
-    @Nullable
-    private String companyName;
-    @Nullable
-    private String contactName;
-
     private String documentNumber;
     private String typeClient;
     private String documentType;

@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -24,37 +22,60 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public Mono<ClientEntity> createClient(RequestBean bean, String typePerson) throws Exception {
-        if(!Arrays.asList(Constants.typePerson).contains(typePerson))
-            throw new Exception("No hay ese valor");
+    public Mono<ClientEntity> createClient(Mono<RequestBean> bean) {
 
-        if(!Arrays.asList(Constants.documentType).contains(bean.getDocumentType()))
-            throw new Exception("No hay ese tipo de documento");
+        return bean.flatMap(requestBean -> {
+            /*if(!Arrays.asList(Constants.documentType).contains(requestBean.getDocumentType()))
+                throw new BusinessException(HttpStatus.BAD_REQUEST, "------");*/
 
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setFirstName(bean.getFirstName());
-        clientEntity.setLastName(bean.getLastName());
-        clientEntity.setCompanyName(bean.getCompanyName());
-        clientEntity.setContactName(bean.getContactName());
-        clientEntity.setDocumentNumber(bean.getDocumentNumber());
-        clientEntity.setTypeClient(typePerson);
-        clientEntity.setDocumentType(bean.getDocumentType());
-        clientEntity.setIsActive(true);
-        clientEntity.setCreatedAt(new Date());
+            ClientEntity clientEntity = new ClientEntity();
+            clientEntity.setFirstName(requestBean.getFirstName());
+            clientEntity.setLastName(requestBean.getLastName());
+            clientEntity.setDocumentNumber(requestBean.getDocumentNumber());
+            clientEntity.setTypeClient(Constants.typePerson);
+            clientEntity.setDocumentType(requestBean.getDocumentType());
+            clientEntity.setIsActive(true);
+            clientEntity.setCreatedAt(new Date());
+            log.info("Guardando cliente...");
 
-        log.info("Guardando cliente...");
-        Mono<ClientEntity> client = Mono.just(clientEntity);
+            return clientRepository.save(clientEntity);
 
-        clientRepository.save(clientEntity).subscribe(clientEntity1 -> {
-            log.info("Cliente guardado : {}", clientEntity1.toString() );
         });
-
-
-        return Mono.just(clientEntity);
     }
 
     @Override
     public Flux<ClientEntity> getClient() {
         return clientRepository.findAll();
     }
+
+    @Override
+    public Mono<ClientEntity> getClient(String documentNumber) {
+        if(documentNumber.isEmpty())
+            return Mono.just(new ClientEntity());
+
+        return clientRepository.findByDocumentNumberAndIsActive(documentNumber, true);
+    }
+
+    @Override
+    public Mono<ClientEntity> updateClient(RequestBean bean, String documentNumber) {
+        return clientRepository.findByDocumentNumber(documentNumber)
+                .flatMap(clientEntity -> {
+                    clientEntity.setFirstName(bean.getFirstName());
+                    clientEntity.setLastName(bean.getLastName());
+
+                    return clientRepository.save(clientEntity);
+                });
+    }
+
+    @Override
+    public Mono<ClientEntity> deleteClient(String documentNumber) {
+        return clientRepository.findByDocumentNumberAndIsActive(documentNumber, true)
+                .flatMap(clientEntity -> {
+                    clientEntity.setIsActive(false);
+
+                    return clientRepository.save(clientEntity);
+                });
+    }
+
+
 }

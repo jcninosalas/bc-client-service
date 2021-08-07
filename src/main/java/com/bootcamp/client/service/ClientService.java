@@ -7,6 +7,9 @@ import reactor.core.publisher.Mono;
 
 public interface ClientService
 {
-    public Mono<ClientEntity> createClient(RequestBean bean, String typePerson) throws Exception;
+    public Mono<ClientEntity> createClient(Mono<RequestBean> bean) throws Exception;
     public Flux<ClientEntity> getClient();
+    public Mono<ClientEntity> getClient(String documentNumber);
+    public Mono<ClientEntity> updateClient(RequestBean bean, String documentNumber);
+    public Mono<ClientEntity> deleteClient(String documentNumber);
 }
