@@ -2,7 +2,7 @@ package com.bootcamp.client.service.impl;
 
 import com.bootcamp.client.bean.RequestBean;
 import com.bootcamp.client.model.ClientEntity;
-import com.bootcamp.client.model.Constants;
+import com.bootcamp.client.bean.Constants;
 import com.bootcamp.client.repository.ClientRepository;
 import com.bootcamp.client.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,9 +50,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Mono<ClientEntity> getClient(String documentNumber) {
-        if(documentNumber.isEmpty())
-            return Mono.just(new ClientEntity());
-
         return clientRepository.findByDocumentNumberAndIsActive(documentNumber, true);
     }
 
@@ -62,6 +59,7 @@ public class ClientServiceImpl implements ClientService {
                 .flatMap(clientEntity -> {
                     clientEntity.setFirstName(bean.getFirstName());
                     clientEntity.setLastName(bean.getLastName());
+                    clientEntity.setModifiedAt(new Date());
 
                     return clientRepository.save(clientEntity);
                 });

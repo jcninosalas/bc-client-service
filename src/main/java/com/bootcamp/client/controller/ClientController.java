@@ -53,7 +53,8 @@ public class ClientController
                     response.put("body", clientEntity);
 
                     return Mono.just(ResponseEntity.ok().body(response));
-                });
+                })
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("")

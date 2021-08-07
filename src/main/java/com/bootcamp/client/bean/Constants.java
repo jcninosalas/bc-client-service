@@ -1,4 +1,4 @@
-package com.bootcamp.client.model;
+package com.bootcamp.client.bean;
 
 public enum Constants
 { ;
