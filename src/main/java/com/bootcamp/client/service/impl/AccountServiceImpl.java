@@ -10,9 +10,14 @@ import com.bootcamp.client.service.AccountClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -32,19 +37,30 @@ public class AccountServiceImpl implements AccountClientService
                 .flatMap(clientEntity -> {
                     AccountClientEntity accountClientEntity = new AccountClientEntity();
                     Customer customer = new Customer(clientEntity.get_id(), clientEntity.getDocumentNumber());
+
+                    List<Account> listAccount = new ArrayList<>();
+
                     Account account = new Account(accClientBean.getIdAccount(),
                             accClientBean.getAccountNumber(), accClientBean.getType());
 
+                    listAccount.add(account);
+
                     accountClientEntity.setCustomer(customer);
-                    accountClientEntity.setAccount(account);
+                    accountClientEntity.setAccount(listAccount);
                     accountClientEntity.setCreatedAt(new Date());
                     accountClientEntity.setLimitTransaction(accClientBean.getLimitTransaction());
 
                     log.info("Guardando asignacion de cliente a cuenta : {}", accountClientEntity.toString() );
 
-                    return accountClientRepository.findByCustomerDocumentNumberAndAccountType(
-                            accountClientEntity.getCustomer().getDocumentNumber(),
-                            accountClientEntity.getAccount().getType())
+                    return accountClientRepository.findByCustomerDocumentNumber(
+                            accountClientEntity.getCustomer().getDocumentNumber())
+                            .flatMap(accountClientEntity1 -> {
+                                accountClientEntity1.getAccount().add(account);
+                                return accountClientRepository.findByCustomerDocumentNumberAndAccountType(
+                                        accountClientEntity1.getCustomer().getDocumentNumber(),
+                                        accClientBean.getType())
+                                        .switchIfEmpty(accountClientRepository.save(accountClientEntity1));
+                            })
                             .switchIfEmpty(accountClientRepository.save(accountClientEntity));
                 });
     }

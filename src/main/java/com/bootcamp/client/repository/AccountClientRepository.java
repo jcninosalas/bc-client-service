@@ -8,4 +8,5 @@ public interface AccountClientRepository extends ReactiveMongoRepository<Account
 {
     Mono<AccountClientEntity> findByCustomerDocumentNumberAndAccountType(String dodcumentNumber, String type);
     Mono<AccountClientEntity> findByAccountAccountNumber(String accountNumber);
+    Mono<AccountClientEntity> findByCustomerDocumentNumber(String documentNumber);
 }

@@ -10,30 +10,33 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Date;
+import java.util.List;
 
-    @Getter
-    @Setter
-    @Document(collection = "accountClientPerson")
-    @ToString
-    @NoArgsConstructor
-    public class AccountClientEntity
-    {
-        @Id
-        private String _id;
+@Getter
+@Setter
+@Document(collection = "accountClientPerson")
+@ToString
+@NoArgsConstructor
+public class AccountClientEntity
+{
+    @Id
+    private String _id;
 
-        private Customer customer;
-        private Account account;
+    private Customer customer;
+    private List<Account> account;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-        private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date createdAt;
 
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-        private Date modifiedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    private Date modifiedAt;
 
-        @Nullable
-        private Integer limitTransaction;
+    @Nullable
+    private Integer limitTransaction;
 
 
-    }
+}
