@@ -38,6 +38,7 @@ public class AccountServiceImpl implements AccountClientService
                     accountClientEntity.setCustomer(customer);
                     accountClientEntity.setAccount(account);
                     accountClientEntity.setCreatedAt(new Date());
+                    accountClientEntity.setLimitTransaction(accClientBean.getLimitTransaction());
 
                     log.info("Guardando asignacion de cliente a cuenta : {}", accountClientEntity.toString() );
 
@@ -46,5 +47,10 @@ public class AccountServiceImpl implements AccountClientService
                             accountClientEntity.getAccount().getType())
                             .switchIfEmpty(accountClientRepository.save(accountClientEntity));
                 });
+    }
+
+    @Override
+    public Mono<AccountClientEntity> getAccountClient(String accountNumer) {
+        return accountClientRepository.findByAccountAccountNumber(accountNumer);
     }
 }

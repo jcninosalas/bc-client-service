@@ -35,4 +35,18 @@ public class AccountClientController
                 });
         }).defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/{accountNumber}")
+    public Mono<ResponseEntity<Map<String, Object>>> getAccountClient(@PathVariable String accountNumber){
+        Map<String, Object> response = new HashMap<>();
+        return accountClientService.getAccountClient(accountNumber)
+                .flatMap(accountClientEntity -> {
+                    response.put("status", HttpStatus.OK.value());
+                    response.put("message", "Se muestra la cuenta");
+                    response.put("body", accountClientEntity);
+
+                    return Mono.just(ResponseEntity.ok().body(response));
+                })
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 }

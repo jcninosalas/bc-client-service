@@ -3,6 +3,7 @@ package com.bootcamp.client.model;
 import com.bootcamp.client.model.subentity.Account;
 import com.bootcamp.client.model.subentity.Customer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mongodb.lang.Nullable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,4 +31,9 @@ import java.util.Date;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
         private Date modifiedAt;
+
+        @Nullable
+        private Integer limitTransaction;
+
+
     }
