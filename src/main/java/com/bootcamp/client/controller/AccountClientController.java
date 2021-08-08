@@ -17,7 +17,7 @@ import java.util.Map;
 public class AccountClientController
 {
     @Autowired
-    AccountClientService accountClientService;
+    private AccountClientService accountClientService;
 
     @PostMapping("/{documentNumber}")
     public Mono<ResponseEntity<Map<String, Object>>> createAccountClient(@Valid @RequestBody Mono<RequestClientAccountBean> bean, @PathVariable String documentNumber){

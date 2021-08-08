@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -40,7 +41,10 @@ public class AccountServiceImpl implements AccountClientService
 
                     log.info("Guardando asignacion de cliente a cuenta : {}", accountClientEntity.toString() );
 
-                    return accountClientRepository.save(accountClientEntity);
+                    return accountClientRepository.findByCustomerDocumentNumberAndAccountType(
+                            accountClientEntity.getCustomer().getDocumentNumber(),
+                            accountClientEntity.getAccount().getType())
+                            .switchIfEmpty(accountClientRepository.save(accountClientEntity));
                 });
     }
 }

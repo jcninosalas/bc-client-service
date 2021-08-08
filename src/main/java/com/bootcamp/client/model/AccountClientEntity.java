@@ -12,22 +12,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@Document(collection = "accountClientPerson")
-@ToString
-@NoArgsConstructor
-public class AccountClientEntity
-{
-    @Id
-    private String _id;
+    @Getter
+    @Setter
+    @Document(collection = "accountClientPerson")
+    @ToString
+    @NoArgsConstructor
+    public class AccountClientEntity
+    {
+        @Id
+        private String _id;
 
-    private Customer customer;
-    private Account account;
+        private Customer customer;
+        private Account account;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date createdAt;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+        private Date createdAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date modifiedAt;
-}
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+        private Date modifiedAt;
+    }
