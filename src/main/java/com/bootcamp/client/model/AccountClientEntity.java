@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class AccountClientEntity
     private Date modifiedAt;
 
     @Nullable
-    private Integer limitTransaction;
+    private BigDecimal limitTransaction;
 
 
 }

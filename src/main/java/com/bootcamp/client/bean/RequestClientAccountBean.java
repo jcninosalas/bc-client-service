@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,5 +16,6 @@ public class RequestClientAccountBean
     private String accountNumber;
     private String type;
     @Nullable
-    private Integer limitTransaction;
+    private Integer limitMovement;
+    private BigDecimal amountTotal;
 }
