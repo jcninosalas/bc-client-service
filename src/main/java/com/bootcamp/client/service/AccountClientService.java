@@ -8,5 +8,5 @@ public interface AccountClientService
 {
     public Mono<AccountClientEntity> createClientAccount(RequestClientAccountBean accClientBean,
                                                          String documentNumber);
-    public Mono<AccountClientEntity> getAccountClient(String accountNumer);
+    public Mono<AccountClientEntity> getAccountClient(String accountNumer, String documentNumber);
 }

@@ -36,10 +36,11 @@ public class AccountClientController
         }).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{accountNumber}")
-    public Mono<ResponseEntity<Map<String, Object>>> getAccountClient(@PathVariable String accountNumber){
+    @GetMapping("/{accountNumber}/{documentNumber}")
+    public Mono<ResponseEntity<Map<String, Object>>> getAccountClient(@PathVariable String accountNumber,
+                                                                      @PathVariable String documentNumber){
         Map<String, Object> response = new HashMap<>();
-        return accountClientService.getAccountClient(accountNumber)
+        return accountClientService.getAccountClient(accountNumber, documentNumber)
                 .flatMap(accountClientEntity -> {
                     response.put("status", HttpStatus.OK.value());
                     response.put("message", "Se muestra la cuenta");

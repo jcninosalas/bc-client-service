@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountClientService
     }
 
     @Override
-    public Mono<AccountClientEntity> getAccountClient(String accountNumer) {
-        return accountClientRepository.findByAccountAccountNumber(accountNumer);
+    public Mono<AccountClientEntity> getAccountClient(String accountNumer, String documentNumber) {
+        return accountClientRepository.findByAccountAccountNumberAndCustomerDocumentNumber(accountNumer, documentNumber);
     }
 }
