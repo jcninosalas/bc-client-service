@@ -1,0 +1,13 @@
+services:
+  bc-clients-service:
+    image: bc-clients-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - SECURITY_USERNAME=admin
+      - SECURITY_PASSWORD=password
+      - CONFIG_URI=https://config-server-pj2.mybluemix.net
+      - ADMIN_URI=https://admin-server-pj2.mybluemix.net

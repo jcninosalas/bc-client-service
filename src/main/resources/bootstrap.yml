@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: clients-service
+
+  cloud:
+    config:
+      uri: ${CONFIG_URI}
+      username: ${SECURITY_USERNAME}
+      password: ${SECURITY_PASSWORD}
+
