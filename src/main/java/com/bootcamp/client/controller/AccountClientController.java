@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/p-customers/accounts")
+@RequestMapping("/personals-customers/accounts")
 public class AccountClientController
 {
     @Autowired
